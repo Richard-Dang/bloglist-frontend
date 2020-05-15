@@ -11,6 +11,19 @@ function BlogList({ user, blogs, setUser, setBlogs }) {
     setUser(null);
   };
 
+  const displayBlogs = () => {
+    blogs.sort((a, b) => a.likes < b.likes);
+    return blogs.map((blog) => (
+      <Blog
+        key={blog.id}
+        blog={blog}
+        setBlogs={setBlogs}
+        blogs={blogs}
+        user={user}
+      />
+    ));
+  };
+
   return (
     <div>
       <h2>blogs</h2>
@@ -18,9 +31,7 @@ function BlogList({ user, blogs, setUser, setBlogs }) {
       <p>{user.name} has logged in</p>
       <button onClick={handleLogOut}>logout</button>
       <BlogForm blogs={blogs} setBlogs={setBlogs} setMessage={setMessage} />
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
+      {displayBlogs()}
     </div>
   );
 }

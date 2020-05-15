@@ -20,7 +20,7 @@ function BlogForm({ blogs, setBlogs, setMessage }) {
         type: "success",
       });
     } catch (err) {
-      console.log("Couldn't submit blog: ", err);
+      console.log("Couldn't submit blog: ", err.response.data);
     }
   };
 

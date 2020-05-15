@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, setBlogs, blogs, user }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -19,7 +19,21 @@ const Blog = ({ blog }) => {
     await blogService.updateBlog(updatedBlog);
     try {
     } catch (err) {
-      console.log("Could not update blog", err);
+      console.log("Could not update blog", err.response.data);
+    }
+  };
+
+  const handleDelete = async () => {
+    const confirmedDelete = window.confirm(
+      `Remove blog ${blog.title} by ${blog.author}?`
+    );
+    if (confirmedDelete) {
+      try {
+        await blogService.deleteBlog(blog);
+        setBlogs(blogs.filter((b) => b.id !== blog.id));
+      } catch (err) {
+        console.log("Failed to delete blog", err);
+      }
     }
   };
 
@@ -31,6 +45,9 @@ const Blog = ({ blog }) => {
           likes {likes} <button onClick={handleLike}>like</button>
         </p>
         {blog.user ? <p>{blog.user.name}</p> : null}
+        {user.username === blog.user.username ? (
+          <button onClick={handleDelete}>remove</button>
+        ) : null}
       </div>
     ) : null;
   };

@@ -14,7 +14,7 @@ function LoginForm({ password, username, setUsername, setPassword, setUser }) {
       setPassword("");
       window.localStorage.setItem("loggedInBlogUser", JSON.stringify(user));
     } catch (err) {
-      console.log("Wrong credentials: ", err);
+      console.log("Wrong credentials: ", err.response.data);
       setMessage({
         text: "wrong username or password",
         type: "error",
