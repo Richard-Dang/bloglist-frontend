@@ -68,7 +68,8 @@ describe("Blog app", function () {
           likes: 20,
         });
       });
-      it.only("blogs are ordered in ascending order according to likes", function () {
+      
+      it("blogs are ordered in ascending order according to likes", function () {
         cy.get(".blog").then((blogs) => {
           let prev = Number.MAX_SAFE_INTEGER;
           for (var i = 0; i < blogs.length; i++) {

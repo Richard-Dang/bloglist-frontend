@@ -15,6 +15,7 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
   const handleLike = async () => {
     const updatedBlog = blog;
     updatedBlog.likes++;
+    updatedBlog.user = blog.user.id;
     setLikes(likes + 1);
     try {
       await blogService.updateBlog(updatedBlog);
@@ -42,10 +43,11 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
       <div>
         <p>{blog.url}</p>
         <p>
-          likes {likes} <button onClick={handleLike}>like</button>
+          likes <span className="likes">{likes}</span>
+          <button onClick={handleLike}>like</button>
         </p>
         {blog.user ? <p>{blog.user.name}</p> : null}
-        {user.username === blog.user.username ? (
+        {blog.user && user.username === blog.user.username ? (
           <button onClick={handleDelete}>remove</button>
         ) : null}
       </div>
