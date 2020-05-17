@@ -32,6 +32,7 @@ function BlogForm({ blogs, setBlogs, setMessage }) {
           <div>
             title:
             <input
+              id="title"
               type="text"
               value={title}
               name="Title"
@@ -41,6 +42,7 @@ function BlogForm({ blogs, setBlogs, setMessage }) {
           <div>
             author:
             <input
+              id="author"
               type="text"
               value={author}
               name="Author"
@@ -50,13 +52,14 @@ function BlogForm({ blogs, setBlogs, setMessage }) {
           <div>
             url:
             <input
+              id="url"
               type="text"
               value={url}
               name="Url"
               onChange={({ target }) => setUrl(target.value)}
             />
           </div>
-          <button type="submit">create</button>
+          <button type="submit" id="create-button">create</button>
           <button onClick={() => setShowComponent(false)}>cancel</button>
         </form>
       </div>

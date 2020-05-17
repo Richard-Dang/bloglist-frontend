@@ -16,8 +16,8 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
     const updatedBlog = blog;
     updatedBlog.likes++;
     setLikes(likes + 1);
-    await blogService.updateBlog(updatedBlog);
     try {
+      await blogService.updateBlog(updatedBlog);
     } catch (err) {
       console.log("Could not update blog", err.response.data);
     }
@@ -53,7 +53,7 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
   };
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blog">
       <p>
         {blog.title} {blog.author}
         <button onClick={() => setShowBlog(!showBlog)}>
