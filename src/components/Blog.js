@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import blogService from "../services/blogs";
+import { useDispatch, useSelector } from "react-redux";
+import { updateBlog, deleteBlog } from "../reducers/blogReducer";
 
-const Blog = ({ blog, setBlogs, blogs, user }) => {
+const Blog = ({ blog }) => {
+  const dispatch = useDispatch();
+  const user = useSelector(({ user }) => user);
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -17,11 +21,7 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
     updatedBlog.likes++;
     updatedBlog.user = blog.user.id;
     setLikes(likes + 1);
-    try {
-      await blogService.updateBlog(updatedBlog);
-    } catch (err) {
-      console.log("Could not update blog", err.response.data);
-    }
+    dispatch(updateBlog(updatedBlog));
   };
 
   const handleDelete = async () => {
@@ -29,12 +29,7 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
       `Remove blog ${blog.title} by ${blog.author}?`
     );
     if (confirmedDelete) {
-      try {
-        await blogService.deleteBlog(blog);
-        setBlogs(blogs.filter((b) => b.id !== blog.id));
-      } catch (err) {
-        console.log("Failed to delete blog", err);
-      }
+      dispatch(deleteBlog(blog));
     }
   };
 

@@ -1,27 +1,33 @@
 import React, { useState } from "react";
-import blogService from "../services/blogs";
+import { useDispatch } from "react-redux";
+import useField from "../hooks/useField";
+import { createBlog } from "../reducers/blogReducer";
+import { setNotification } from "../reducers/notificationReducer";
 
-function BlogForm({ blogs, setBlogs, setMessage }) {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+function BlogForm() {
+  const dispatch = useDispatch();
+  const { reset: resetTitle, ...titleInput } = useField("text");
+  const { reset: resetAuthor, ...authorInput } = useField("text");
+  const { reset: resetUrl, ...urlInput } = useField("text");
   const [showComponent, setShowComponent] = useState(false);
 
   const handleBlogSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const blog = await blogService.createBlog({ title, author, url });
-      setBlogs(blogs.concat(blog));
-      setTitle("");
-      setAuthor("");
-      setUrl("");
-      setMessage({
-        text: `a new blog ${blog.title} by ${blog.author} added`,
+    const newBlog = {
+      title: titleInput.value,
+      author: authorInput.value,
+      url: urlInput.value,
+    };
+    dispatch(createBlog(newBlog));
+    resetTitle();
+    resetAuthor();
+    resetUrl();
+    dispatch(
+      setNotification({
+        text: `a new blog ${newBlog.title} by ${newBlog.author} added`,
         type: "success",
-      });
-    } catch (err) {
-      console.log("Couldn't submit blog: ", err.response.data);
-    }
+      })
+    );
   };
 
   const blogForm = () => {
@@ -31,35 +37,19 @@ function BlogForm({ blogs, setBlogs, setMessage }) {
         <form onSubmit={handleBlogSubmit}>
           <div>
             title:
-            <input
-              id="title"
-              type="text"
-              value={title}
-              name="Title"
-              onChange={({ target }) => setTitle(target.value)}
-            />
+            <input id="title" {...titleInput} />
           </div>
           <div>
             author:
-            <input
-              id="author"
-              type="text"
-              value={author}
-              name="Author"
-              onChange={({ target }) => setAuthor(target.value)}
-            />
+            <input id="author" {...authorInput} />
           </div>
           <div>
             url:
-            <input
-              id="url"
-              type="text"
-              value={url}
-              name="Url"
-              onChange={({ target }) => setUrl(target.value)}
-            />
+            <input id="url" {...urlInput} />
           </div>
-          <button type="submit" id="create-button">create</button>
+          <button type="submit" id="create-button">
+            create
+          </button>
           <button onClick={() => setShowComponent(false)}>cancel</button>
         </form>
       </div>

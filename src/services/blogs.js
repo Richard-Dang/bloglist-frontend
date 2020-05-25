@@ -1,34 +1,58 @@
 import axios from "axios";
+
+const blogsApi = axios.create();
 const baseUrl = "/api/blogs";
 
-let token = null;
-let config = null;
-
-const setToken = (newToken) => {
-  token = `bearer ${newToken}`;
-  config = {
-    headers: { Authorization: token },
-  };
-};
+blogsApi.interceptors.request.use(
+  (config) => {
+    const loggedInUserJSON = window.localStorage.getItem("loggedInBlogUser");
+    if (loggedInUserJSON) {
+      const token = JSON.parse(loggedInUserJSON).token;
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  (err) => {
+    return Promise.reject(err);
+  }
+);
 
 const getAll = async () => {
-  const response = await axios.get(baseUrl);
-  return response.data;
+  try {
+    const response = await blogsApi.get(baseUrl);
+    return response.data;
+  } catch (err) {
+    console.log("err.response.data", err.response.data);
+  }
 };
 
 const createBlog = async (blog) => {
-  const response = await axios.post(baseUrl, blog, config);
-  return response.data;
+  try {
+    const response = await blogsApi.post(baseUrl, blog);
+    return response.data;
+  } catch (err) {
+    console.log("err.response.data", err.response.data);
+  }
 };
 
 const updateBlog = async (blog) => {
-  const response = await axios.put(`${baseUrl}/${blog.id}`, blog, config);
-  return response.data;
+  try {
+    const response = await blogsApi.put(`${baseUrl}/${blog.id}`, blog);
+    return response.data;
+  } catch (err) {
+    console.log("err.response.data", err.response.data);
+  }
 };
 
 const deleteBlog = async (blog) => {
-  const response = await axios.delete(`${baseUrl}/${blog.id}`, config);
-  return response.data;
+  try {
+    const response = await blogsApi.delete(`${baseUrl}/${blog.id}`);
+    return response.data;
+  } catch (err) {
+    console.log("err.response.data", err.response.data);
+  }
 };
 
-export default { getAll, createBlog, updateBlog, deleteBlog, setToken };
+export default { getAll, createBlog, updateBlog, deleteBlog };
