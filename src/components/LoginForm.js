@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import Notification from "../components/Notification";
 import { setNotification } from "../reducers/notificationReducer";
-import { loginUser } from "../reducers/userReducer";
+import { loginUser } from "../reducers/loginReducer";
 import useField from "../hooks/useField";
 
 function LoginForm() {

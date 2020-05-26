@@ -1,27 +1,8 @@
-import axios from "axios";
-
-const blogsApi = axios.create();
-const baseUrl = "/api/blogs";
-
-blogsApi.interceptors.request.use(
-  (config) => {
-    const loggedInUserJSON = window.localStorage.getItem("loggedInBlogUser");
-    if (loggedInUserJSON) {
-      const token = JSON.parse(loggedInUserJSON).token;
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-    }
-    return config;
-  },
-  (err) => {
-    return Promise.reject(err);
-  }
-);
+import blogApi from "../services/blogApi";
 
 const getAll = async () => {
   try {
-    const response = await blogsApi.get(baseUrl);
+    const response = await blogApi.get("/blogs");
     return response.data;
   } catch (err) {
     console.log("err.response.data", err.response.data);
@@ -30,7 +11,7 @@ const getAll = async () => {
 
 const createBlog = async (blog) => {
   try {
-    const response = await blogsApi.post(baseUrl, blog);
+    const response = await blogApi.post("/blogs", blog);
     return response.data;
   } catch (err) {
     console.log("err.response.data", err.response.data);
@@ -39,7 +20,7 @@ const createBlog = async (blog) => {
 
 const updateBlog = async (blog) => {
   try {
-    const response = await blogsApi.put(`${baseUrl}/${blog.id}`, blog);
+    const response = await blogApi.put(`/blogs/${blog.id}`, blog);
     return response.data;
   } catch (err) {
     console.log("err.response.data", err.response.data);
@@ -48,7 +29,7 @@ const updateBlog = async (blog) => {
 
 const deleteBlog = async (blog) => {
   try {
-    const response = await blogsApi.delete(`${baseUrl}/${blog.id}`);
+    const response = await blogApi.delete(`/blogs/${blog.id}`);
     return response.data;
   } catch (err) {
     console.log("err.response.data", err.response.data);

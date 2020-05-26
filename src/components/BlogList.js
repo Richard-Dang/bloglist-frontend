@@ -3,11 +3,11 @@ import Blog from "../components/Blog";
 import BlogForm from "../components/BlogForm";
 import Notification from "../components/Notification";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../reducers/userReducer";
+import { logoutUser } from "../reducers/loginReducer";
 
 function BlogList() {
   const dispatch = useDispatch();
-  const user = useSelector(({ user }) => user);
+  const user = useSelector(({ loggedInUser }) => loggedInUser);
   const blogs = useSelector(({ blogs }) => {
     return blogs.sort((a, b) => a.likes < b.likes);
   });

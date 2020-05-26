@@ -2,13 +2,13 @@ import blogReducer from "./reducers/blogReducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import userReducer from "./reducers/userReducer";
+import loginReducer from "./reducers/loginReducer";
 import notificationReducer from "./reducers/notificationReducer";
-
-console.log("blogReducerStore", blogReducer);
+import userReducer from "./reducers/userReducer";
 
 const reducer = combineReducers({
-  user: userReducer,
+  users: userReducer,
+  loggedInUser: loginReducer,
   notification: notificationReducer,
   blogs: blogReducer,
 });

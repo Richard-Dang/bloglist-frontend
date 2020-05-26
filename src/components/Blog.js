@@ -4,7 +4,7 @@ import { updateBlog, deleteBlog } from "../reducers/blogReducer";
 
 const Blog = ({ blog }) => {
   const dispatch = useDispatch();
-  const user = useSelector(({ user }) => user);
+  const user = useSelector(({ loggedInUser }) => loggedInUser);
 
   const blogStyle = {
     paddingTop: 10,
