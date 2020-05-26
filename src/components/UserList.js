@@ -1,9 +1,8 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import User from "../components/User";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const UserList = () => {
-  const dispatch = useDispatch();
   const users = useSelector(({ users }) => users);
   return (
     <div>
@@ -16,9 +15,17 @@ const UserList = () => {
             <th>Blogs Created</th>
           </tr>
         </thead>
-        {users.map((user) => (
-          <User key={user.id} user={user} />
-        ))}
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.id}>
+              <td>
+                <Link to={`/users/${user.id}`}>{user.name}</Link>
+              </td>
+              <td>{user.username}</td>
+              <td>{user.blogs.length}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );

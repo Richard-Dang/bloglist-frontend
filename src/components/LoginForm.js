@@ -4,11 +4,13 @@ import Notification from "../components/Notification";
 import { setNotification } from "../reducers/notificationReducer";
 import { loginUser } from "../reducers/loginReducer";
 import useField from "../hooks/useField";
+import { useHistory } from "react-router-dom";
 
 function LoginForm() {
   const dispatch = useDispatch();
   const { reset: resetUsername, ...usernameInput } = useField("text");
   const { reset: resetPassword, ...passwordInput } = useField("text");
+  const history = useHistory();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -21,6 +23,7 @@ function LoginForm() {
       );
       resetUsername();
       resetPassword();
+      history.push("/");
     } catch (err) {
       console.log("Wrong credentials: ", err.response.data);
       dispatch(
