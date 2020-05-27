@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateBlog } from "../reducers/blogReducer";
+import Comments from "./Comments";
 
 const Blog = ({ blog }) => {
   const dispatch = useDispatch();
@@ -8,11 +9,11 @@ const Blog = ({ blog }) => {
   const handleLike = async () => {
     const updatedBlog = blog;
     updatedBlog.likes++;
+    // When updating, need to make sure that only ids for users and comments belong to object
     updatedBlog.user = blog.user.id;
+    updatedBlog.comments = blog.comments.map((c) => c.id);
     dispatch(updateBlog(updatedBlog));
   };
-
-  console.log("blog", blog);
 
   return blog ? (
     <div>
@@ -23,6 +24,7 @@ const Blog = ({ blog }) => {
         <button onClick={handleLike}>like</button>
       </p>
       {blog.user ? <p>added by {blog.user.name}</p> : null}
+      <Comments comments={blog.comments} />
     </div>
   ) : null;
 };

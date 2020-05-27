@@ -43,4 +43,13 @@ export const deleteBlog = (blog) => {
   };
 };
 
+export const createComment = ({ blog, comment }) => {
+  return async (dispatch) => {
+    const returnedComment = await blogService.createComment({ blog, comment });
+    const updatedBlog = blog;
+    updatedBlog.comments.push(returnedComment);
+    dispatch({ type: "UPDATE_BLOG", data: updatedBlog });
+  };
+};
+
 export default blogReducer;

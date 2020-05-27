@@ -36,4 +36,13 @@ const deleteBlog = async (blog) => {
   }
 };
 
-export default { getAll, createBlog, updateBlog, deleteBlog };
+  const createComment = async ({ blog, comment }) => {
+  try {
+    const response = await blogApi.post(`/blogs/${blog.id}/comments/`, comment);
+    return response.data;
+  } catch (err) {
+    console.log("err.response.data", err.response.data);
+  }
+  };
+
+export default { getAll, createBlog, updateBlog, deleteBlog, createComment };
